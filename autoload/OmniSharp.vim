@@ -684,17 +684,19 @@ function! OmniSharp#TypeLookup(includeDocumentation, ...) abort
 endfunction
 
 function! s:CBTypeLookup(opts, response) abort
-  if a:opts.Doc
-    if len(a:response.doc) > 0
-      call s:WriteToPreview(a:response.type . "\n\n" . a:response.doc)
-    else
-      call s:WriteToPreview(a:response.type)
-    endif
-  else
-    echo a:response.type[0 : &columns * &cmdheight - 2]
+  if g:OmniSharp_typeLookupInPreview
+      if a:opts.Doc
+        if len(a:response.doc) > 0
+          call s:WriteToPreview(a:response.type . "\n\n" . a:response.doc)
+        else
+          call s:WriteToPreview(a:response.type)
+        endif
+      else
+        echo a:response.type[0 : &columns * &cmdheight - 2]
+      endif
   endif
   if has_key(a:opts, 'Callback')
-    call a:opts.Callback(a:response.type)
+    call a:opts.Callback(a:response)
   endif
 endfunction
 
