@@ -46,14 +46,8 @@ endfunction
 
 function! s:CBFindImplementations(target, opts, locations) abort
   let numImplementations = len(a:locations)
-  if numImplementations == 0
-    echo 'No implementations found'
-  elseif numImplementations == 1
-    call OmniSharp#locations#Navigate(a:locations[0], 0)
-  else " numImplementations > 1
-    call OmniSharp#locations#SetQuickfix(a:locations,
-    \ 'Implementations: ' . a:target)
-  endif
+  call OmniSharp#locations#SetQuickfix(a:locations,
+  \ 'Implementations: ' . a:target)
   if has_key(a:opts, 'Callback')
     call a:opts.Callback(numImplementations)
   endif

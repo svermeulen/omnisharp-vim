@@ -33,16 +33,20 @@ function! s:CBFindSymbol(filter, locations) abort
     echo 'No symbols found'
     return
   endif
-  if g:OmniSharp_selector_ui ==? 'unite'
-    call unite#start([['OmniSharp/findsymbols', a:locations]])
-  elseif g:OmniSharp_selector_ui ==? 'ctrlp'
-    call ctrlp#OmniSharp#findsymbols#setsymbols(a:locations)
-    call ctrlp#init(ctrlp#OmniSharp#findsymbols#id())
-  elseif g:OmniSharp_selector_ui ==? 'fzf'
-    call fzf#OmniSharp#FindSymbols(a:locations)
+  if len(a:locations) == 1
+    call OmniSharp#locations#Navigate(a:locations[0], 0)
   else
-    let title = 'Symbols' . (len(a:filter) ? ': ' . a:filter : '')
-    call OmniSharp#locations#SetQuickfix(a:locations, title)
+      if g:OmniSharp_selector_ui ==? 'unite'
+        call unite#start([['OmniSharp/findsymbols', a:locations]])
+      elseif g:OmniSharp_selector_ui ==? 'ctrlp'
+        call ctrlp#OmniSharp#findsymbols#setsymbols(a:locations)
+        call ctrlp#init(ctrlp#OmniSharp#findsymbols#id())
+      elseif g:OmniSharp_selector_ui ==? 'fzf'
+        call fzf#OmniSharp#FindSymbols(a:locations)
+      else
+        let title = 'Symbols' . (len(a:filter) ? ': ' . a:filter : '')
+        call OmniSharp#locations#SetQuickfix(a:locations, title)
+      endif
   endif
 endfunction
 

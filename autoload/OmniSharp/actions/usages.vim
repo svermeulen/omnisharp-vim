@@ -39,13 +39,7 @@ endfunction
 
 function! s:CBFindUsages(target, opts, locations) abort
   let numUsages = len(a:locations)
-  if numUsages == 0
-    echo 'No usages found'
-  elseif get(g:, 'OmniSharp_selector_findusages', '') == 'fzf'
-    call fzf#OmniSharp#FindUsages(a:locations, a:target)
-  else
-    call OmniSharp#locations#SetQuickfix(a:locations, 'Usages: ' . a:target)
-  endif
+  call OmniSharp#locations#SetQuickfix(a:locations, 'Usages: ' . a:target)
   if has_key(a:opts, 'Callback')
     call a:opts.Callback(numUsages)
   endif
