@@ -85,9 +85,7 @@ endfunction
 
 function! s:CBFindMembers(opts, locations) abort
   let numMembers = len(a:locations)
-  if numMembers > 0
-    call OmniSharp#locations#SetQuickfixWithVerticalAlign(a:locations, 'Members')
-  endif
+  call OmniSharp#locations#SetQuickfixWithVerticalAlign(a:locations, 'Members')
   if has_key(a:opts, 'Callback')
     call a:opts.Callback(numMembers)
   endif
